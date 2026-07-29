@@ -21,14 +21,6 @@ export function buildGraph(
 
   for (const m of materias) {
     if (m.tipo === 'electiva_opcion') continue;
-    const ci = (m.anio - 1) * 2 + (m.cuatrimestre - 1);
-    if (m.tipo === 'transversal') {
-      if (!transCols.has(ci)) transCols.set(ci, []);
-      transCols.get(ci)!.push(m);
-    } else {
-      if (!mainCols.has(ci)) mainCols.set(ci, []);
-      mainCols.get(ci)!.push(m);
-    }
   }
 
   const optimizedMain = optimizeLayout(mainCols, materias);
@@ -98,7 +90,7 @@ export function buildGraph(
   const edges: Edge[] = [];
   for (const m of materias) {
     if (m.tipo === 'electiva_opcion') continue;
-    for (const corrId of m.correlativas) {
+    for (const corrId of m.correlativasCursar) {
       const corr = materias.find(x => x.id === corrId);
       if (!corr || corr.tipo === 'electiva_opcion') continue;
       const colors = ESTADO_COLORS[estadosEfectivos[corrId] ?? 'bloqueada'];
@@ -132,7 +124,9 @@ function optimizeLayout(
   const successors = new Map<string, string[]>();
   for (const m of allMaterias) {
     if (m.tipo === 'electiva_opcion') continue;
-    for (const corrId of m.correlativas) {
+    
+    // 👇 Agregar el fallback acá
+    for (const corrId of (m.correlativasCursar || [])) {
       if (!successors.has(corrId)) successors.set(corrId, []);
       successors.get(corrId)!.push(m.id);
     }
@@ -148,7 +142,7 @@ function optimizeLayout(
     for (const ci of sortedCIs) {
       const mats = result.get(ci)!;
       const rowOf = buildRowOf(result);
-      mats.sort((a, b) => compareByBary(a.correlativas, b.correlativas, rowOf));
+      mats.sort((a, b) => compareByBary(a.correlativasCursar, b.correlativasCursar, rowOf));
     }
 
     // Backward pass — sort each column by average row of its successors

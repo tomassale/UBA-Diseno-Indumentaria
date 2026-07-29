@@ -27,7 +27,7 @@ export function ImportModal({ carrera, onClose, onImport }: ImportModalProps) {
 
     setStage({ kind: 'loading' });
     const result = await procesarHistoriaAcademica(file, carrera);
-    if (!result.ok) {
+    if (result.ok === false) {
       setStage({ kind: 'error', message: result.error });
       return;
     }
@@ -120,5 +120,5 @@ export function ImportModal({ carrera, onClose, onImport }: ImportModalProps) {
         </div>
       </div>
     </>
-  );
+  )
 }

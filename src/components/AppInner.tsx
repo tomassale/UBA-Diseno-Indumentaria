@@ -32,11 +32,6 @@ export function AppInner({ carrera }: AppInnerProps) {
     return result;
   }, [carrera.materias, activeProgreso]);
 
-  const milestoneIds = useMemo(
-    () => new Set(carrera.tituloIntermedio?.materiaIds ?? []),
-    [carrera.tituloIntermedio],
-  );
-
   const selectedMateria = selectedId
     ? (carrera.materias.find(m => m.id === selectedId) ?? null)
     : null;
@@ -88,7 +83,6 @@ export function AppInner({ carrera }: AppInnerProps) {
             <MapaView
               materias={carrera.materias}
               estadosEfectivos={estadosEfectivos}
-              milestoneIds={milestoneIds}
               onSelectMateria={setSelectedId}
               simMode={simMode}
               simOverrides={simOverrides}
@@ -101,7 +95,6 @@ export function AppInner({ carrera }: AppInnerProps) {
               materias={carrera.materias}
               progreso={progreso}
               estadosEfectivos={estadosEfectivos}
-              milestoneIds={milestoneIds}
               onSelectMateria={setSelectedId}
               onSetEstado={setEstado}
               onRemoveMateria={removeMateria}
@@ -122,7 +115,6 @@ export function AppInner({ carrera }: AppInnerProps) {
               estadoEfectivo={estadosEfectivos[selectedMateria.id] ?? 'bloqueada'}
               todasMaterias={carrera.materias}
               estadosEfectivos={estadosEfectivos}
-              tituloIntermedio={milestoneIds.has(selectedMateria.id) ? carrera.tituloIntermedio : undefined}
               onClose={() => setSelectedId(null)}
               onSetEstado={(estado: MateriaProgreso['estado']) => setEstado(selectedMateria.id, estado)}
               onRemove={() => { removeMateria(selectedMateria.id); }}

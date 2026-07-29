@@ -1,7 +1,6 @@
 import { useMemo, useCallback, useEffect, useRef, useState, type MouseEvent, type RefObject } from 'react';
 import { Info } from 'lucide-react';
 import { toPng } from 'html-to-image';
-import { IconGitHub, IconInstagram, IconLinkedIn, IconX } from './SocialIcons';
 import {
   ReactFlow,
   Background,
@@ -303,21 +302,6 @@ export function MapaView({ materias, estadosEfectivos, milestoneIds, onSelectMat
               </div>
             ),
           )}
-        </div>
-
-        <div className="mapa-social">
-          <a href="https://instagram.com/matibarcia_" target="_blank" rel="noopener noreferrer" className="social-btn" title="Instagram @matibarcia_">
-            <IconInstagram />
-          </a>
-          <a href="https://twitter.com/matibarcia_" target="_blank" rel="noopener noreferrer" className="social-btn" title="Twitter @matibarcia_">
-            <IconX />
-          </a>
-          <a href="https://www.linkedin.com/in/matias-barcia" target="_blank" rel="noopener noreferrer" className="social-btn" title="LinkedIn">
-            <IconLinkedIn />
-          </a>
-          <a href="https://github.com/MatiBarcia" target="_blank" rel="noopener noreferrer" className="social-btn" title="GitHub">
-            <IconGitHub />
-          </a>
         </div>
       </div>
     </div>

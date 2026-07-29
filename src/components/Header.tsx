@@ -22,18 +22,11 @@ interface HeaderProps {
 export function Header({ carrera, estadosEfectivos, view, onViewChange, simMode, onToggleSim, onExport, onImportProgreso }: HeaderProps) {
   const { theme, toggleTheme } = useTheme();
   const { status: authStatus, user, syncConfigured, login, logout } = useAuth();
-  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [importOpen, setImportOpen] = useState(false);
   const EC = getEstadoColors(theme);
   const s = computeStats(carrera.materias, estadosEfectivos);
   const pct = s.total > 0 ? Math.round((s.aprobadas / s.total) * 100) : 0;
-
-  const titInt = carrera.tituloIntermedio;
-  const milestone = titInt ? computeMilestone(titInt.materiaIds, estadosEfectivos) : null;
-  const milestoneTitle = titInt && milestone
-    ? `Título intermedio — ${titInt.nombre}\n${milestone.aprobadas}/${milestone.total} materias aprobadas${milestone.completo ? ' · ¡Completo!' : ''}`
-    : undefined;
 
   function runAndClose(fn: () => void) {
     fn();
@@ -43,9 +36,7 @@ export function Header({ carrera, estadosEfectivos, view, onViewChange, simMode,
   return (
     <header className="app-header">
       <div className="hdr-left">
-        <button className="hdr-logo-btn" onClick={() => navigate('/')} title="Volver al inicio">
-          <img src="/logo.png" alt="UNLaM Organizer" className="hdr-logo-img" />
-        </button>
+        <img src="/icon.png" alt="FADU Organizer" className="hdr-logo-img" />
         <div className="hdr-career-info">
           <span className="hdr-career-name">{carrera.nombre}</span>
           <span className="hdr-career-plan">Plan {carrera.plan}</span>
@@ -75,12 +66,6 @@ export function Header({ carrera, estadosEfectivos, view, onViewChange, simMode,
           <span className="hdr-pill" style={{ background: EC.disponible.bg, color: EC.disponible.text, borderColor: EC.disponible.border }}>
             {s.disponibles} disponibles
           </span>
-          {milestone && (
-            <span className="hdr-pill hdr-pill--titint" title={milestoneTitle}>
-              {milestone.completo ? <Check size={11} /> : <Award size={11} />}
-              Título intermedio {milestone.aprobadas}/{milestone.total}
-            </span>
-          )}
         </div>
       </div>
 

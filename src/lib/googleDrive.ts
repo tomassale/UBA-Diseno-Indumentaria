@@ -17,7 +17,6 @@ export interface GoogleUser {
   picture: string;
 }
 
-/** Todo el progreso guardado en Drive: un blob por carrera, igual que en localStorage. */
 export type CloudProgreso = Record<string, ProgresoPerfil>;
 
 function getClientId(): string | null {

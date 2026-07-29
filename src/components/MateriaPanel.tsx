@@ -89,8 +89,7 @@ export function MateriaPanel({
 
       {/* Meta */}
       <div className="panel-meta">
-        <span>{materia.anio}° Año · {materia.cuatrimestre}° C</span>
-        <span>{materia.horasSemanales} hs/sem</span>
+        <span>{materia.anio}° Año</span>
         <span>{TIPO_LABELS[materia.tipo] ?? materia.tipo}</span>
         {materia.esAnual && <span className="panel-badge-anual">Anual</span>}
       </div>

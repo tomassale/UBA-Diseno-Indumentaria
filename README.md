@@ -1,12 +1,12 @@
-# UNLaM Organizer
+# FADU Organizer
 
-Herramienta para visualizar y trackear el progreso académico en las carreras de la Universidad Nacional de La Matanza (UNLaM).
+Herramienta para visualizar y trackear el progreso académico en las carreras de la Facultad de Arquitectura, diseño y Urbanismo (FADU).
 
 ---
 
 ## ¿Qué es?
 
-UNLaM Organizer es una aplicación web que te permite ver el plan de estudios completo como un grafo de correlatividades y registrar tu avance materia por materia. Está pensada para que de un vistazo puedas saber qué materias tenés disponibles para cursar, cuáles te faltan regularizar, y qué camino te queda por delante hasta recibirse.
+FADU Organizer es una aplicación web que te permite ver el plan de estudios completo como un grafo de correlatividades y registrar tu avance materia por materia. Está pensada para que de un vistazo puedas saber qué materias tenés disponibles para cursar, cuáles te faltan regularizar, y qué camino te queda por delante hasta recibirse.
 
 ---
 

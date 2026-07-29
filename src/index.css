@@ -61,7 +61,7 @@ body {
   /* Misma foto de la sede que en la home, igual de tenue — se asoma detrás
      del grafo y la tabla (header, panel y barras tienen fondo sólido propio). */
   background-color: var(--bg);
-  background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), url('/campus-unlam.jpg');
+  background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), url('/campus-fadu.jpeg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -990,10 +990,10 @@ input  { font-family: inherit; }
   font-family: 'IBM Plex Sans', system-ui, sans-serif;
   overflow-y: auto;
 
-  /* Foto de la sede UNLaM como fondo — casi imperceptible: el degradé sólido
+  /* Foto de la sede FADU como fondo — casi imperceptible: el degradé sólido
      (mismo color arriba y abajo) actúa de velo, la imagen apenas se asoma. */
   background-color: var(--l-bg);
-  background-image: linear-gradient(var(--l-bg-overlay), var(--l-bg-overlay)), url('/campus-unlam.jpg');
+  background-image: linear-gradient(var(--l-bg-overlay), var(--l-bg-overlay)), url('/campus-fadu.jpeg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

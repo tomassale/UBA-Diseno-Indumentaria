@@ -4,8 +4,8 @@ import type { EstadoMateria, Materia, ProgresoPerfil } from '../types';
 export function getEstadoEfectivo(materia: Materia, progreso: ProgresoPerfil): EstadoMateria {
   const p = progreso[materia.id];
   if (p) return p.estado;
-  if (materia.correlativas.length === 0) return 'disponible';
-  const cumplidas = materia.correlativas.every(id => {
+  if (materia.correlativasCursar.length === 0) return 'disponible';
+  const cumplidas = materia.correlativasCursar.every(id => {
     const cp = progreso[id];
     return cp?.estado === 'regularizada' || cp?.estado === 'aprobada';
   });
