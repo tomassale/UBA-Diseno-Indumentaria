@@ -74,5 +74,9 @@ export function useProgreso(carreraId: string) {
     });
   }, []);
 
-  return { progreso, setEstado, updateGrades, removeMateria };
+  const clearProgreso = useCallback(() => {
+    setProgreso({});
+  }, []);
+
+  return { progreso, setEstado, updateGrades, removeMateria, clearProgreso };
 }

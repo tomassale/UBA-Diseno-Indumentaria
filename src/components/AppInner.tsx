@@ -17,7 +17,7 @@ export function AppInner({ carrera }: AppInnerProps) {
   const [simMode, setSimMode] = useState(false);
   const [simOverrides, setSimOverrides] = useState<ProgresoPerfil>({});
 
-  const { progreso, setEstado, updateGrades, removeMateria } = useProgreso(carrera.id);
+  const { progreso, setEstado, updateGrades, removeMateria, clearProgreso } = useProgreso(carrera.id);
 
   const activeProgreso = useMemo<ProgresoPerfil>(
     () => (simMode ? { ...progreso, ...simOverrides } : progreso),
@@ -42,6 +42,14 @@ export function AppInner({ carrera }: AppInnerProps) {
 
   function handleExport() {
     mapaExportRef.current?.();
+  }
+
+  // "Limpiar toda la vista": borra el progreso real y descarta cualquier simulación/selección.
+  function handleClear() {
+    clearProgreso();
+    setSimOverrides({});
+    setSimMode(false);
+    setSelectedId(null);
   }
 
   function handleToggleSim() {
@@ -74,6 +82,7 @@ export function AppInner({ carrera }: AppInnerProps) {
         simMode={simMode}
         onToggleSim={handleToggleSim}
         onExport={handleExport}
+        onClearProgreso={handleClear}
       />
 
       <div className="app-body">

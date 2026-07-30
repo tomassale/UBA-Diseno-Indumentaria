@@ -53,11 +53,11 @@ export const disenoIndumentaria: Carrera = {
     { id: 'adit1', codigo: 'ADIT1', nombre: 'ADIT1', anio: 1, tieneFinal: true, correlativasCursar: ['CBC'], correlativasFinal: ['CBC'], tipo: 'obligatoria' },
     { id: 'hdit1', codigo: 'HDIT1', nombre: 'HDIT1', anio: 1, tieneFinal: true, correlativasCursar: ['CBC'], correlativasFinal: ['CBC'], tipo: 'obligatoria' },
     { id: 'tpin1', codigo: 'TPIN1', nombre: 'TPIN1', anio: 1, tieneFinal: true, correlativasCursar: ['CBC'], correlativasFinal: ['CBC'], tipo: 'obligatoria' },
-    { id: 'tpin2', codigo: 'TPIN2', nombre: 'TPIN2', anio: 1, tieneFinal: true, correlativasCursar: ['TPIN1'], correlativasFinal: ['TPIN1'], tipo: 'obligatoria' },
+    { id: 'tpin2', codigo: 'TPIN2', nombre: 'TPIN2', anio: 1, tieneFinal: true, correlativasCursar: ['CBC', 'TPIN1'], correlativasFinal: ['TPIN1'], tipo: 'obligatoria' },
 
     // ── 2º Año ───────────────────────────────────────────────────────────
-    { id: 'pi1', codigo: 'PI1', nombre: 'Proyecto Indum1', anio: 2, tieneFinal: false, correlativasCursar: ['IP', 'ME1', 'FGDM'], correlativasFinal: [], tipo: 'obligatoria' },
-    { id: 'mp', codigo: 'MP', nombre: 'MP', anio: 2, tieneFinal: false, correlativasCursar: ['TPIN1', 'IP', 'ME1'], correlativasFinal: [], tipo: 'obligatoria' },
+    { id: 'pi1', codigo: 'PI1', nombre: 'Proyecto Indum1', anio: 2, tieneFinal: false, correlativasCursar: ['IP', 'ME1', 'FGDM', 'TPIN1'], correlativasFinal: [], tipo: 'obligatoria' },
+    { id: 'mp', codigo: 'MP', nombre: 'MP', anio: 2, tieneFinal: false, correlativasCursar: ['IP', 'ME1', 'FGDM', 'TPIN1'], correlativasFinal: [], tipo: 'obligatoria' },
     { id: 'me2', codigo: 'ME2', nombre: 'Medios Exp. 2', anio: 2, tieneFinal: false, correlativasCursar: ['ME1'], correlativasFinal: [], tipo: 'obligatoria' },
     { id: 'tpi1', codigo: 'TPI1', nombre: 'TPI1', anio: 2, tieneFinal: true, correlativasCursar: ['TPIN1', 'IP', 'ME1'], correlativasFinal: ['TPIN2'], tipo: 'obligatoria' },
     { id: 'hdit2', codigo: 'HDIT2', nombre: 'HDIT2', anio: 2, tieneFinal: true, correlativasCursar: ['HDIT1'], correlativasFinal: ['HDIT1'], tipo: 'obligatoria' },
@@ -66,7 +66,7 @@ export const disenoIndumentaria: Carrera = {
 
     // ── 3º Año ───────────────────────────────────────────────────────────
     { id: 'pi2', codigo: 'PI2', nombre: 'Proyecto Indum2', anio: 3, tieneFinal: false, correlativasCursar: ['PI1', 'MP', 'ME2', 'ADIT1', 'HDIT1', 'ME1', 'IP', 'FGDM'], correlativasFinal: ['TPI1'], tipo: 'obligatoria' },
-    { id: 'pi3', codigo: 'PI3', nombre: 'Proyecto Indum3', anio: 3, tieneFinal: false, correlativasCursar: ['PI2', 'PI1', 'TPI1', 'ME2', 'ADIT1', 'HDIT1', 'MP'], correlativasFinal: ['TPI1'], tipo: 'obligatoria' },
+    { id: 'pi3', codigo: 'PI3', nombre: 'Proyecto Indum3', anio: 3, tieneFinal: false, correlativasCursar: ['PI2', 'PI1', 'TPI1', 'ME2', 'ADIT1', 'HDIT1', 'MP'], correlativasFinal: ['TPI2'], tipo: 'obligatoria' },
     { id: 'pa1', codigo: 'PA1', nombre: 'Proy Accesorios 1', anio: 3, tieneFinal: false, correlativasCursar: ['PI2', 'PI1', 'MP', 'ME2', 'ME1', 'ADIT1', 'HDIT1'], correlativasFinal: ['TPI1'], tipo: 'obligatoria' },
     { id: 'socio', codigo: 'SOCIO', nombre: 'Socio', anio: 3, tieneFinal: true, correlativasCursar: ['IP', 'ME1', 'TPIN2'], correlativasFinal: ['ADIT1', 'HDIT1'], tipo: 'obligatoria' },
     { id: 'cym1', codigo: 'CYM1', nombre: 'CyM1', anio: 3, tieneFinal: true, correlativasCursar: [...TODO_1_ANIO], correlativasFinal: ['TPI1', 'HDIT2'], tipo: 'obligatoria' },

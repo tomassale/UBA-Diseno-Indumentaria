@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Sun, Moon, FlaskConical, Download, Menu, LogOut } from 'lucide-react';
+import { Sun, Moon, FlaskConical, Download, Eraser, Menu, LogOut } from 'lucide-react';
 import type { Carrera, EstadoMateria } from '../types';
 import { computeStats, getEstadoColors } from '../utils/estados';
 import { useTheme } from '../context/ThemeContext';
@@ -14,9 +14,10 @@ interface HeaderProps {
   simMode: boolean;
   onToggleSim: () => void;
   onExport: () => void;
+  onClearProgreso: () => void;
 }
 
-export function Header({ carrera, estadosEfectivos, view, onViewChange, simMode, onToggleSim, onExport }: HeaderProps) {
+export function Header({ carrera, estadosEfectivos, view, onViewChange, simMode, onToggleSim, onExport, onClearProgreso }: HeaderProps) {
   const { theme, toggleTheme } = useTheme();
   const { status: authStatus, user, syncConfigured, login, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -94,6 +95,16 @@ export function Header({ carrera, estadosEfectivos, view, onViewChange, simMode,
           >
             <Download size={15} />
             Exportar
+          </button>
+          <button
+            className="io-btn"
+            onClick={() => runAndClose(() => {
+              if (confirm('¿Limpiar toda la vista? Se borrará el estado y las notas de todas las materias. No se puede deshacer.')) onClearProgreso();
+            })}
+            title="Borrar todo el progreso cargado (estados y notas)"
+          >
+            <Eraser size={15} />
+            Limpiar
           </button>
           <button
             className={`sim-btn${simMode ? ' sim-btn--active' : ''}`}
