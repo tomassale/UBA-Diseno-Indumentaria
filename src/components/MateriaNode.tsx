@@ -1,5 +1,5 @@
 import { Handle, Position, type NodeProps, type Node } from '@xyflow/react';
-import { Award } from 'lucide-react';
+import { Award, CalendarRange } from 'lucide-react';
 import type { MateriaNodeData } from '../types';
 import { getEstadoColors } from '../utils/estados';
 import { useTheme } from '../context/ThemeContext';
@@ -34,12 +34,21 @@ export function MateriaNode({ data, selected }: NodeProps<MateriaNodeType>) {
 
       {data.simApproved && <div className="mn-sim-badge">SIM</div>}
 
-      {data.tituloIntermedio && (
-        <div
-          className="mn-titint-badge"
-          title="Cuenta para el Título Intermedio"
-        >
-          <Award size={11} />
+      {(data.esAnual || data.tituloIntermedio) && (
+        <div className="mn-badges">
+          {data.esAnual && (
+            <div className="mn-anual-badge" title="Materia anual">
+              <CalendarRange size={11} />
+            </div>
+          )}
+          {data.tituloIntermedio && (
+            <div
+              className="mn-titint-badge"
+              title="Cuenta para el Título Intermedio"
+            >
+              <Award size={11} />
+            </div>
+          )}
         </div>
       )}
 

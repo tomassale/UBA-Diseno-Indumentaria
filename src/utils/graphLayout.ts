@@ -97,6 +97,7 @@ export function buildGraph(
           estado: estadosEfectivos[m.id] ?? 'bloqueada',
           tipo: m.tipo,
           tituloIntermedio: milestoneIds?.has(m.id) ?? false,
+          esAnual: m.esAnual ?? false,
         } as MateriaNodeData,
         width: NODE_W,
         height: NODE_H,

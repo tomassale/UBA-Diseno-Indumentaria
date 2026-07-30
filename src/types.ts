@@ -48,4 +48,5 @@ export interface MateriaNodeData extends Record<string, unknown> {
   tipo: TipoMateria;
   simApproved?: boolean;
   tituloIntermedio?: boolean;
+  esAnual?: boolean;
 }

@@ -613,10 +613,17 @@ input  { font-family: inherit; }
   border-radius: 3px;
 }
 
-.mn-titint-badge {
+.mn-badges {
   position: absolute;
   top: 6px;
   right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 1;
+}
+
+.mn-titint-badge {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -626,6 +633,19 @@ input  { font-family: inherit; }
   background: rgba(139, 122, 168, 0.12);
   border: 1px solid rgba(139, 122, 168, 0.4);
   color: #b8a9d1;
+  z-index: 1;
+}
+
+.mn-anual-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(245, 158, 11, 0.14);
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  color: #f59e0b;
   z-index: 1;
 }
 
