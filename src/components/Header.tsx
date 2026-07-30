@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import { Sun, Moon, FlaskConical, Download, Upload, Menu, Award, Check, LogOut } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import type { Carrera, EstadoMateria, ProgresoPerfil } from '../types';
-import { computeStats, computeMilestone, getEstadoColors } from '../utils/estados';
+import { Sun, Moon, FlaskConical, Download, Menu, LogOut } from 'lucide-react';
+import type { Carrera, EstadoMateria } from '../types';
+import { computeStats, getEstadoColors } from '../utils/estados';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import { IconGoogle } from './SocialIcons';
-import { ImportModal } from './ImportModal';
 
 interface HeaderProps {
   carrera: Carrera;
@@ -16,14 +14,12 @@ interface HeaderProps {
   simMode: boolean;
   onToggleSim: () => void;
   onExport: () => void;
-  onImportProgreso: (progreso: ProgresoPerfil) => void;
 }
 
-export function Header({ carrera, estadosEfectivos, view, onViewChange, simMode, onToggleSim, onExport, onImportProgreso }: HeaderProps) {
+export function Header({ carrera, estadosEfectivos, view, onViewChange, simMode, onToggleSim, onExport }: HeaderProps) {
   const { theme, toggleTheme } = useTheme();
   const { status: authStatus, user, syncConfigured, login, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [importOpen, setImportOpen] = useState(false);
   const EC = getEstadoColors(theme);
   const s = computeStats(carrera.materias, estadosEfectivos);
   const pct = s.total > 0 ? Math.round((s.aprobadas / s.total) * 100) : 0;
@@ -36,7 +32,9 @@ export function Header({ carrera, estadosEfectivos, view, onViewChange, simMode,
   return (
     <header className="app-header">
       <div className="hdr-left">
-        <img src="/icon.png" alt="FADU Organizer" className="hdr-logo-img" />
+        <button className="hdr-logo-btn" onClick={() => onViewChange('mapa')} title="Ir al mapa">
+          <img src="/icon.png" alt="FADU Organizer" className="hdr-logo-img" />
+        </button>
         <div className="hdr-career-info">
           <span className="hdr-career-name">{carrera.nombre}</span>
           <span className="hdr-career-plan">Plan {carrera.plan}</span>
@@ -97,10 +95,6 @@ export function Header({ carrera, estadosEfectivos, view, onViewChange, simMode,
             <Download size={15} />
             Exportar
           </button>
-          <button className="io-btn" onClick={() => runAndClose(() => setImportOpen(true))} title="Importar progreso desde el PDF de tu historia académica">
-            <Upload size={15} />
-            Importar
-          </button>
           <button
             className={`sim-btn${simMode ? ' sim-btn--active' : ''}`}
             onClick={() => runAndClose(onToggleSim)}
@@ -141,14 +135,6 @@ export function Header({ carrera, estadosEfectivos, view, onViewChange, simMode,
           <Menu size={18} />
         </button>
       </div>
-
-      {importOpen && (
-        <ImportModal
-          carrera={carrera}
-          onClose={() => setImportOpen(false)}
-          onImport={onImportProgreso}
-        />
-      )}
     </header>
   );
 }

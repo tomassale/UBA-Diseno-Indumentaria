@@ -2,6 +2,7 @@ import { MarkerType, type Edge, type Node } from '@xyflow/react';
 import type { EstadoMateria, Materia, MateriaNodeData } from '../types';
 import type { ColHeaderData } from '../components/ColumnHeaderNode';
 import { ESTADO_COLORS } from './estados';
+import { anioSortKey } from './anios';
 
 export const NODE_W = 240;
 const NODE_H = 84;
@@ -16,11 +17,26 @@ export function buildGraph(
   estadosEfectivos: Record<string, EstadoMateria>,
   milestoneIds?: Set<string>,
 ): { nodes: Node[]; edges: Edge[] } {
+  // Una columna por año, en orden: CBC primero, luego 1°, 2°, ... Las transversales
+  // (Inglés, Computación) van en su propia sección debajo, alineadas por el mismo año.
+  const anioToCi = new Map<number | string, number>();
+  [...new Set(materias.filter(m => m.tipo !== 'electiva_opcion').map(m => m.anio))]
+    .sort((a, b) => anioSortKey(a) - anioSortKey(b))
+    .forEach((anio, ci) => anioToCi.set(anio, ci));
+
+  const ciToAnio = new Map<number, number | string>();
+  for (const [anio, ci] of anioToCi) ciToAnio.set(ci, anio);
+
   const mainCols = new Map<number, Materia[]>();
   const transCols = new Map<number, Materia[]>();
 
   for (const m of materias) {
     if (m.tipo === 'electiva_opcion') continue;
+    const ci = anioToCi.get(m.anio);
+    if (ci === undefined) continue;
+    const cols = m.tipo === 'transversal' ? transCols : mainCols;
+    if (!cols.has(ci)) cols.set(ci, []);
+    cols.get(ci)!.push(m);
   }
 
   const optimizedMain = optimizeLayout(mainCols, materias);
@@ -52,14 +68,14 @@ export function buildGraph(
     mats.forEach((m, i) => pos.set(m.id, { x, y: NODE_Y0 + TRANS_Y + offsetY + i * ROW_H }));
   }
 
-  // Column header nodes — one per cuatrimestre found in either section
+  // Un nodo de encabezado por columna (una columna por año).
   const allCIs = new Set([...optimizedMain.keys(), ...optimizedTrans.keys()]);
   const headerNodes: Node<ColHeaderData>[] = [...allCIs].sort((a, b) => a - b).map(ci => ({
     id: `col-header-${ci}`,
     type: 'col-header',
     className: 'col-header-wrapper',
     position: { x: ci * COL_STEP, y: 0 },
-    data: { anio: Math.floor(ci / 2) + 1, cuatrimestre: (ci % 2) + 1 },
+    data: { anio: ciToAnio.get(ci) ?? ci + 1 },
     selectable: false,
     focusable: false,
     draggable: false,

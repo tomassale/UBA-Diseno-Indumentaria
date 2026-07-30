@@ -36,7 +36,6 @@ export interface Carrera {
   nombre: string;
   plan: string;
   materias: Materia[];
-  cuatrimestreEstimado?: boolean;
   anioEstimado?: boolean;
 }
 

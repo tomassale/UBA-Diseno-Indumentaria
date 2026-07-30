@@ -2,7 +2,6 @@ import type { NodeProps, Node } from '@xyflow/react';
 
 export interface ColHeaderData extends Record<string, unknown> {
   anio: number | string;
-  cuatrimestre: number;
 }
 
 export type ColHeaderNodeType = Node<ColHeaderData, 'col-header'>;

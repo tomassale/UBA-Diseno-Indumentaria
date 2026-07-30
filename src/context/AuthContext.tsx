@@ -33,7 +33,7 @@ export function useAuth(): AuthCtx {
   return ctx;
 }
 
-const LOCAL_PROGRESO_PREFIX = 'unlam_progreso_v1_';
+const LOCAL_PROGRESO_PREFIX = 'fadu_progreso_v1_';
 
 function readAllLocalProgreso(): CloudProgreso {
   const result: CloudProgreso = {};

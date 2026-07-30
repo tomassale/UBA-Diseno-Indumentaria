@@ -2,6 +2,7 @@ import { Fragment, useState, useCallback, type ChangeEvent } from 'react';
 import { Search, SlidersHorizontal, Award } from 'lucide-react';
 import type { EstadoMateria, Materia, MateriaProgreso, ProgresoPerfil } from '../types';
 import { getEstadoColors } from '../utils/estados';
+import { anioSortKey, anioLabel } from '../utils/anios';
 import { useTheme } from '../context/ThemeContext';
 
 interface TablaViewProps {
@@ -16,9 +17,7 @@ interface TablaViewProps {
     id: string,
     updates: Pick<MateriaProgreso, 'notaParcial1' | 'notaParcial2' | 'notaFinal'>,
   ) => void;
-  /** false cuando el cuatrimestre de la carrera fue estimado (el plan oficial solo publica el año) */
-  showCuatrimestre?: boolean;
-  /** false cuando el año de la carrera también fue estimado (el plan oficial no publica ni año ni cuatrimestre) */
+  /** false cuando el año de la carrera fue estimado (el plan oficial no publica el año) */
   showAnio?: boolean;
 }
 
@@ -39,12 +38,11 @@ interface RowProps {
   onRemove: () => void;
   onUpdateGrades: (updates: Pick<MateriaProgreso, 'notaParcial1' | 'notaParcial2' | 'notaFinal'>) => void;
   onSelect: () => void;
-  showCuatrimestre: boolean;
   showAnio: boolean;
   esTituloIntermedio: boolean;
 }
 
-function MateriaRow({ materia, progreso, estado, onSetEstado, onRemove, onUpdateGrades, onSelect, showCuatrimestre, showAnio, esTituloIntermedio }: RowProps) {
+function MateriaRow({ materia, progreso, estado, onSetEstado, onRemove, onUpdateGrades, onSelect, showAnio, esTituloIntermedio }: RowProps) {
   const { theme } = useTheme();
   const EC = getEstadoColors(theme);
   const c = EC[estado];
@@ -80,9 +78,7 @@ function MateriaRow({ materia, progreso, estado, onSetEstado, onRemove, onUpdate
           </span>
         )}
       </td>
-      {showAnio && <td className="td-center" data-label="Año">{materia.anio}°</td>}
-      {showCuatrimestre && <td className="td-center td-secondary" data-label="C°">{materia.cuatrimestre}°</td>}
-      <td className="td-center td-secondary" data-label="Hs">{materia.horasSemanales}</td>
+      {showAnio && <td className="td-center" data-label="Año">{typeof materia.anio === 'number' ? `${materia.anio}°` : materia.anio}</td>}
       <td className="td-tipo td-secondary" data-label="Tipo">{TIPO_LABEL[materia.tipo] ?? materia.tipo}</td>
       <td className="td-estado" data-label="Estado">
         <select
@@ -128,27 +124,26 @@ export function TablaView({
   onSetEstado,
   onRemoveMateria,
   onUpdateGrades,
-  showCuatrimestre = true,
   showAnio = true,
 }: TablaViewProps) {
-  const colSpan = 10 - (showCuatrimestre ? 0 : 1) - (showAnio ? 0 : 1);
+  const colSpan = 8 - (showAnio ? 0 : 1);
   const { theme } = useTheme();
   const EC = getEstadoColors(theme);
   const [query, setQuery] = useState('');
   const [filterEstados, setFilterEstados] = useState<EstadoMateria[]>([]);
-  const [filterAnios, setFilterAnios] = useState<(number | 'transversal')[]>([]);
+  const [filterAnios, setFilterAnios] = useState<(Materia['anio'] | 'transversal')[]>([]);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const activeFilterCount = filterEstados.length + filterAnios.length;
 
   const years = [...new Set(
     materias.filter(m => m.tipo !== 'transversal' && m.tipo !== 'electiva_opcion').map(m => m.anio)
-  )].sort((a, b) => a - b);
+  )].sort((a, b) => anioSortKey(a) - anioSortKey(b));
 
   const toggleEstado = useCallback((e: EstadoMateria) => {
     setFilterEstados(prev => (prev.includes(e) ? prev.filter(x => x !== e) : [...prev, e]));
   }, []);
 
-  const toggleAnio = useCallback((a: number | 'transversal') => {
+  const toggleAnio = useCallback((a: Materia['anio'] | 'transversal') => {
     setFilterAnios(prev => (prev.includes(a) ? prev.filter(x => x !== a) : [...prev, a]));
   }, []);
 
@@ -158,7 +153,7 @@ export function TablaView({
     return m.nombre.toLowerCase().includes(q) || m.codigo.includes(q);
   };
 
-  const yearFilters = filterAnios.filter((a): a is number => typeof a === 'number');
+  const yearFilters = filterAnios.filter(a => a !== 'transversal');
   const transversalSelected = filterAnios.includes('transversal');
   const showMain = filterAnios.length === 0 || yearFilters.length > 0;
   const showTransversals = filterAnios.length === 0 || transversalSelected;
@@ -243,7 +238,7 @@ export function TablaView({
                 className={`filter-btn${filterAnios.includes(a) ? ' active' : ''}`}
                 onClick={() => toggleAnio(a)}
               >
-                {a}° Año
+                {anioLabel(a)}
               </button>
             ))}
             <button
@@ -264,8 +259,6 @@ export function TablaView({
               <th>Código</th>
               <th className="th-nombre">Asignatura</th>
               {showAnio && <th>Año</th>}
-              {showCuatrimestre && <th>C°</th>}
-              <th>Hs</th>
               <th>Tipo</th>
               <th>Estado</th>
               <th>Parcial 1</th>
@@ -280,7 +273,7 @@ export function TablaView({
                 <Fragment key={m.id}>
                   {showYearSep && (
                     <tr className="tabla-section-sep">
-                      <td colSpan={colSpan}>{m.anio}° Año</td>
+                      <td colSpan={colSpan}>{anioLabel(m.anio)}</td>
                     </tr>
                   )}
                   <MateriaRow
@@ -291,7 +284,6 @@ export function TablaView({
                     onRemove={() => onRemoveMateria(m.id)}
                     onUpdateGrades={updates => onUpdateGrades(m.id, updates)}
                     onSelect={() => onSelectMateria(m.id)}
-                    showCuatrimestre={showCuatrimestre}
                     showAnio={showAnio}
                     esTituloIntermedio={milestoneIds?.has(m.id) ?? false}
                   />
@@ -320,7 +312,6 @@ export function TablaView({
                     onRemove={() => onRemoveMateria(m.id)}
                     onUpdateGrades={updates => onUpdateGrades(m.id, updates)}
                     onSelect={() => onSelectMateria(m.id)}
-                    showCuatrimestre={showCuatrimestre}
                     showAnio={showAnio}
                     esTituloIntermedio={milestoneIds?.has(m.id) ?? false}
                   />

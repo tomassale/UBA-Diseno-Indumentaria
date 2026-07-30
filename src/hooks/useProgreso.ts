@@ -3,7 +3,7 @@ import type { MateriaProgreso, ProgresoPerfil } from '../types';
 import { useAuth } from '../context/AuthContext';
 
 export function useProgreso(carreraId: string) {
-  const storageKey = `unlam_progreso_v1_${carreraId}`;
+  const storageKey = `fadu_progreso_v1_${carreraId}`;
   const { status, cloudProgreso, updateCarreraProgreso } = useAuth();
 
   const [progreso, setProgreso] = useState<ProgresoPerfil>(() => {
@@ -74,9 +74,5 @@ export function useProgreso(carreraId: string) {
     });
   }, []);
 
-  const importProgreso = useCallback((data: ProgresoPerfil) => {
-    setProgreso(data);
-  }, []);
-
-  return { progreso, setEstado, updateGrades, removeMateria, importProgreso };
+  return { progreso, setEstado, updateGrades, removeMateria };
 }

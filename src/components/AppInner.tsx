@@ -17,7 +17,7 @@ export function AppInner({ carrera }: AppInnerProps) {
   const [simMode, setSimMode] = useState(false);
   const [simOverrides, setSimOverrides] = useState<ProgresoPerfil>({});
 
-  const { progreso, setEstado, updateGrades, removeMateria, importProgreso } = useProgreso(carrera.id);
+  const { progreso, setEstado, updateGrades, removeMateria } = useProgreso(carrera.id);
 
   const activeProgreso = useMemo<ProgresoPerfil>(
     () => (simMode ? { ...progreso, ...simOverrides } : progreso),
@@ -74,7 +74,6 @@ export function AppInner({ carrera }: AppInnerProps) {
         simMode={simMode}
         onToggleSim={handleToggleSim}
         onExport={handleExport}
-        onImportProgreso={importProgreso}
       />
 
       <div className="app-body">
@@ -99,7 +98,6 @@ export function AppInner({ carrera }: AppInnerProps) {
               onSetEstado={setEstado}
               onRemoveMateria={removeMateria}
               onUpdateGrades={updateGrades}
-              showCuatrimestre={!carrera.cuatrimestreEstimado}
               showAnio={!carrera.anioEstimado}
             />
           )}

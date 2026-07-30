@@ -1,7 +1,8 @@
 import { useState, type ReactNode } from 'react';
-import { X, Lock, CheckCircle2, BookOpen, GraduationCap, Award } from 'lucide-react';
-import type { EstadoMateria, Materia, MateriaProgreso, TituloIntermedio } from '../types';
+import { X, Lock, CheckCircle2, BookOpen, GraduationCap } from 'lucide-react';
+import type { EstadoMateria, Materia, MateriaProgreso } from '../types';
 import { getEstadoColors } from '../utils/estados';
+import { anioLabel } from '../utils/anios';
 import { useTheme } from '../context/ThemeContext';
 
 interface MateriaPanelProps {
@@ -10,8 +11,6 @@ interface MateriaPanelProps {
   estadoEfectivo: EstadoMateria;
   todasMaterias: Materia[];
   estadosEfectivos: Record<string, EstadoMateria>;
-  /** Definido si esta materia cuenta para el título intermedio de la carrera */
-  tituloIntermedio?: TituloIntermedio;
   onClose: () => void;
   onSetEstado: (estado: MateriaProgreso['estado']) => void;
   onRemove: () => void;
@@ -39,7 +38,6 @@ export function MateriaPanel({
   estadoEfectivo,
   todasMaterias,
   estadosEfectivos,
-  tituloIntermedio,
   onClose,
   onSetEstado,
   onRemove,
@@ -62,12 +60,12 @@ export function MateriaPanel({
     });
   }
 
-  const correqs = materia.correlativas
+  const correqs = materia.correlativasCursar
     .map(id => todasMaterias.find(m => m.id === id))
     .filter((m): m is Materia => m !== undefined);
 
   const desbloquea = todasMaterias.filter(m =>
-    m.correlativas.includes(materia.id) && m.tipo !== 'electiva_opcion',
+    m.correlativasCursar.includes(materia.id) && m.tipo !== 'electiva_opcion',
   );
 
   const acciones: { label: string; estado: MateriaProgreso['estado'] }[] = [
@@ -89,21 +87,10 @@ export function MateriaPanel({
 
       {/* Meta */}
       <div className="panel-meta">
-        <span>{materia.anio}° Año</span>
+        <span>{anioLabel(materia.anio)}</span>
         <span>{TIPO_LABELS[materia.tipo] ?? materia.tipo}</span>
         {materia.esAnual && <span className="panel-badge-anual">Anual</span>}
       </div>
-
-      {/* Título intermedio */}
-      {tituloIntermedio && (
-        <div className="panel-titint" title={tituloIntermedio.descripcion}>
-          <Award size={15} className="panel-titint-icon" />
-          <div className="panel-titint-text">
-            <span className="panel-titint-label">Cuenta para el título intermedio</span>
-            <span className="panel-titint-name">{tituloIntermedio.nombre}</span>
-          </div>
-        </div>
-      )}
 
       {/* Estado actual */}
       <div className="panel-estado-pill" style={{ background: c.bg, borderColor: c.border, color: c.text }}>

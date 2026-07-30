@@ -1,5 +1,5 @@
 import { useMemo, useCallback, useEffect, useRef, useState, type MouseEvent, type RefObject } from 'react';
-import { Info } from 'lucide-react';
+import { Info, RotateCcw } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import {
   ReactFlow,
@@ -82,11 +82,24 @@ export function MapaView({ materias, estadosEfectivos, milestoneIds, onSelectMat
     return isFinite(minX) ? { x: minX, y: 0, width: maxX - minX, height: maxBottom } : null;
   }, [materias]);
 
+  // Se guarda la instancia para poder re-encuadrar el mapa desde el botón de reinicio.
+  const rfInstance = useRef<ReactFlowInstance | null>(null);
+
+  const fitInitialView = useCallback((instance: ReactFlowInstance) => {
+    if (isMobile && firstYearsBounds) instance.fitBounds(firstYearsBounds, { padding: 0.06 });
+    else instance.fitView({ padding: 0.12 });
+  }, [isMobile, firstYearsBounds]);
+
   const handleInit = useCallback((instance: ReactFlowInstance) => {
+    rfInstance.current = instance;
     if (isMobile && firstYearsBounds) {
       instance.fitBounds(firstYearsBounds, { padding: 0.06 });
     }
   }, [isMobile, firstYearsBounds]);
+
+  const handleResetView = useCallback(() => {
+    if (rfInstance.current) fitInitialView(rfInstance.current);
+  }, [fitInitialView]);
 
   const computedWithSim = useMemo(
     () => computed.map(node => {
@@ -286,6 +299,13 @@ export function MapaView({ materias, estadosEfectivos, milestoneIds, onSelectMat
       )}
 
       <div className="mapa-bottom-bar">
+        <button
+          className="map-reset-btn"
+          onClick={handleResetView}
+          title="Reiniciar la vista del mapa"
+        >
+          <RotateCcw size={16} />
+        </button>
         <button
           className="legend-toggle-btn"
           onClick={() => setLegendOpen(o => !o)}
