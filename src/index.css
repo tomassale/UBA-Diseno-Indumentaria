@@ -636,6 +636,19 @@ input  { font-family: inherit; }
   z-index: 1;
 }
 
+.mn-final-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.14);
+  border: 1px solid rgba(59, 130, 246, 0.45);
+  color: #60a5fa;
+  z-index: 1;
+}
+
 .mn-anual-badge {
   display: flex;
   align-items: center;
@@ -692,6 +705,13 @@ input  { font-family: inherit; }
 }
 .panel-meta span { padding: 2px 6px; background: var(--bg); border-radius: 4px; }
 .panel-badge-anual { color: #fde68a !important; background: #3d2706 !important; }
+.panel-badge-final {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #93c5fd !important;
+  background: #0e1e35 !important;
+}
 
 .panel-titint {
   display: flex;
@@ -943,6 +963,13 @@ input  { font-family: inherit; }
   margin-left: 6px;
   vertical-align: middle;
   font-weight: 600;
+}
+.row-badge-final {
+  display: inline-flex;
+  align-items: center;
+  color: #60a5fa;
+  margin-left: 6px;
+  vertical-align: middle;
 }
 .row-badge-titint {
   display: inline-flex;

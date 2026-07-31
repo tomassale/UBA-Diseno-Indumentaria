@@ -49,4 +49,6 @@ export interface MateriaNodeData extends Record<string, unknown> {
   simApproved?: boolean;
   tituloIntermedio?: boolean;
   esAnual?: boolean;
+  /** la materia se aprueba con examen final (no sólo con la cursada/promoción) */
+  tieneFinal?: boolean;
 }

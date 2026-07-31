@@ -98,6 +98,7 @@ export function buildGraph(
           tipo: m.tipo,
           tituloIntermedio: milestoneIds?.has(m.id) ?? false,
           esAnual: m.esAnual ?? false,
+          tieneFinal: m.tieneFinal,
         } as MateriaNodeData,
         width: NODE_W,
         height: NODE_H,

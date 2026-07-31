@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import { X, Lock, CheckCircle2, BookOpen, GraduationCap } from 'lucide-react';
+import { X, Lock, CheckCircle2, BookOpen, GraduationCap, FileCheck } from 'lucide-react';
 import type { EstadoMateria, Materia, MateriaProgreso } from '../types';
 import { getEstadoColors } from '../utils/estados';
 import { anioLabel } from '../utils/anios';
@@ -90,6 +90,11 @@ export function MateriaPanel({
         <span>{anioLabel(materia.anio)}</span>
         <span>{TIPO_LABELS[materia.tipo] ?? materia.tipo}</span>
         {materia.esAnual && <span className="panel-badge-anual">Anual</span>}
+        <span className="panel-badge-final" title={materia.tieneFinal
+          ? 'Se aprueba con examen final'
+          : 'Se aprueba con la cursada o promoción'}>
+          {materia.tieneFinal ? <><FileCheck size={11} />Con final</> : 'Sin final'}
+        </span>
       </div>
 
       {/* Estado actual */}

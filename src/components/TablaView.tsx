@@ -1,5 +1,5 @@
 import { Fragment, useState, useCallback, type ChangeEvent } from 'react';
-import { Search, SlidersHorizontal, Award } from 'lucide-react';
+import { Search, SlidersHorizontal, Award, FileCheck } from 'lucide-react';
 import type { EstadoMateria, Materia, MateriaProgreso, ProgresoPerfil } from '../types';
 import { getEstadoColors } from '../utils/estados';
 import { anioSortKey, anioLabel } from '../utils/anios';
@@ -71,6 +71,11 @@ function MateriaRow({ materia, progreso, estado, onSetEstado, onRemove, onUpdate
       <td className="td-code" style={{ color: c.text }}>{materia.codigo}</td>
       <td className="td-nombre">
         <button className="td-nombre-btn" onClick={onSelect}>{materia.nombre}</button>
+        {materia.tieneFinal && (
+          <span className="row-badge-final" title="Se aprueba con examen final">
+            <FileCheck size={11} />
+          </span>
+        )}
         {materia.esAnual && <span className="row-badge-anual">Anual</span>}
         {esTituloIntermedio && (
           <span className="row-badge-titint" title="Cuenta para el Título Intermedio">
